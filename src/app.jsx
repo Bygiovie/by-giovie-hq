@@ -152,8 +152,9 @@ function App() {
   // (~5MB) y se perdían al recargar. IndexedDB las conserva.
   const [wallpaper, setWallpaper] = useIndexedState("bg_wallpaper", window.WALLPAPERS[0]);
   const [userWallpapers, setUserWallpapers] = useIndexedState("bg_user_wp", []);
-  // ajuste del fondo: "cover" (llena, recorta) | "contain" (foto completa, sin recortar)
-  const [bgFit, setBgFit] = useLocalStorage("bg_fit", "cover");
+  // ajuste del fondo: "contain" (foto completa, sin recortar ni zoom) | "cover" (llena, recorta)
+  // por defecto Completo: se ve la imagen entera sin cortes
+  const [bgFit, setBgFit] = useLocalStorage("bg_fit", "contain");
 
   const [theme, setTheme] = useLocalStorage("bg_theme", "glass");
   const [accent, setAccent] = useLocalStorage("bg_accent", "#ff5a2c");
