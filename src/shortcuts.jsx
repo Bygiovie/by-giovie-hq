@@ -56,7 +56,7 @@ function ShortcutsDock({ shortcuts }) {
   return (
     <div className="dock panel">
       {shortcuts.map((sc) => (
-        <a key={sc.id} className="shortcut" href={sc.url} target="_blank" rel="noopener">
+        <a key={sc.id} className="shortcut" href={sc.url}>
           <span className="tile"><ShortcutTile sc={sc} /></span>
           <span className="lbl">{sc.label}</span>
         </a>

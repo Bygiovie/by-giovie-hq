@@ -19,7 +19,8 @@ const DEFAULT_LAYOUT = {
   clock:     { x: 2.5, y: 27, style: "auto", size: 0.92, opacity: 1, color: null },
   date:      { x: 3,  y: 47, style: "auto", size: 1,    opacity: 1, color: null },
   search:    { x: 3,  y: 56, style: "auto", size: 1,    opacity: 1, color: null },
-  shortcuts: { x: 30, y: 82, style: "auto", size: 1,    opacity: 1, color: null },
+  // x = borde DERECHO (el dock se ancla a la derecha y crece hacia la izquierda)
+  shortcuts: { x: 98, y: 85, style: "auto", size: 1,    opacity: 1, color: null },
   weather:   { x: 73, y: 7,  style: "auto", size: 0.95, opacity: 1, color: null },
 };
 
@@ -39,6 +40,7 @@ function Brand({ logo }) {
 
 function Cell({ comp, cfg, customizing, stageRef, onGear, onMove, children }) {
   const ref = React.useRef(null);
+  const isDock = comp.id === "shortcuts"; // anclado por el borde derecho
   const [drag, setDrag] = React.useState(null); // {x, y} % while dragging
 
   const down = (e) => {
@@ -60,7 +62,9 @@ function Cell({ comp, cfg, customizing, stageRef, onGear, onMove, children }) {
       let top = ev.clientY - oy - g.top;
       left = Math.max(0, Math.min(left, g.width - w));
       top = Math.max(0, Math.min(top, g.height - h));
-      last = { x: (left / g.width) * 100, y: (top / g.height) * 100 };
+      // para el dock guardamos el borde DERECHO (left + ancho) en %
+      const xPct = isDock ? ((left + w) / g.width) * 100 : (left / g.width) * 100;
+      last = { x: xPct, y: (top / g.height) * 100 };
       setDrag(last);
     };
     const onUp = () => {
@@ -76,12 +80,14 @@ function Cell({ comp, cfg, customizing, stageRef, onGear, onMove, children }) {
   const x = drag ? drag.x : (cfg.x != null ? cfg.x : 4);
   const y = drag ? drag.y : (cfg.y != null ? cfg.y : 4);
 
-  const cellStyle = { left: x + "%", top: y + "%", transform: "none" };
+  const cellStyle = isDock
+    ? { right: (100 - x) + "%", top: y + "%", transform: "none" }
+    : { left: x + "%", top: y + "%", transform: "none" };
   if (cfg.color) cellStyle["--accent"] = cfg.color;
 
   const scaleStyle = {
     transform: `scale(${cfg.size})`,
-    transformOrigin: "top left",
+    transformOrigin: isDock ? "top right" : "top left",
     opacity: cfg.opacity,
   };
 
@@ -165,6 +171,16 @@ function App() {
     brand: true, greeting: true, clock: true, date: true, search: true, shortcuts: true, weather: true,
   });
   const [layout, setLayout] = useLocalStorage("bg_layout_free", DEFAULT_LAYOUT);
+
+  // migración única: el dock pasó de anclarse por la izquierda a la derecha.
+  // Reseteamos solo su posición al nuevo default (abajo-derecha) una vez.
+  const [dockAnchored, setDockAnchored] = useLocalStorage("bg_dock_anchor_v2", false);
+  React.useEffect(() => {
+    if (!dockAnchored) {
+      setLayout((l) => ({ ...l, shortcuts: { ...l.shortcuts, x: DEFAULT_LAYOUT.shortcuts.x, y: DEFAULT_LAYOUT.shortcuts.y } }));
+      setDockAnchored(true);
+    }
+  }, [dockAnchored]);
 
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const [customizing, setCustomizing] = React.useState(false);
