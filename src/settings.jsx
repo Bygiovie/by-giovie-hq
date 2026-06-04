@@ -86,25 +86,20 @@ function SettingsDrawer(props) {
     if (!f) return;
     setErr("");
     try {
-      const isAnim = /gif|webp/i.test(f.type) || f.type.startsWith("video/");
-      if (isAnim) {
-        // preservar animación: guardar el archivo tal cual (sin recomprimir)
-        if (f.size > 8 * 1024 * 1024) {
-          setErr("El archivo animado es muy grande para guardarlo aquí (máx ~8MB). Usa una URL.");
-          e.target.value = ""; return;
-        }
-        const dataURL = await window.fileToDataURL(f);
-        const type = f.type.startsWith("video/") ? "video" : "image";
-        const w = { id: "u_" + Date.now().toString(36), type, value: dataURL, thumb: type === "video" ? null : dataURL, user: true, animated: true };
-        setUserWallpapers((list) => [w, ...list]);
-        setWallpaper(w);
-      } else {
-        // imagen estática: alta calidad, casi sin pérdida
-        const dataURL = await window.resizeImageFile(f, 3840, 0.95);
-        const w = { id: "u_" + Date.now().toString(36), type: "image", value: dataURL, thumb: dataURL, user: true };
-        setUserWallpapers((list) => [w, ...list]);
-        setWallpaper(w);
+      // guardar SIEMPRE el archivo original tal cual (sin recomprimir ni reescalar).
+      // IndexedDB aguanta archivos grandes; así conservas la imagen original.
+      if (f.size > 40 * 1024 * 1024) {
+        setErr("El archivo es muy grande (máx ~40MB). Para algo más pesado, pega una URL.");
+        e.target.value = ""; return;
       }
+      const dataURL = await window.fileToDataURL(f);
+      const isVideo = f.type.startsWith("video/");
+      const isAnim = isVideo || /gif|webp/i.test(f.type);
+      const type = isVideo ? "video" : "image";
+      const w = { id: "u_" + Date.now().toString(36), type, value: dataURL,
+        thumb: isVideo ? null : dataURL, user: true, animated: isAnim };
+      setUserWallpapers((list) => [w, ...list]);
+      setWallpaper(w);
     } catch (e2) { setErr("No se pudo cargar la imagen."); }
     e.target.value = "";
   };

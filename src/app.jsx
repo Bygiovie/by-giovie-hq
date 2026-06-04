@@ -206,7 +206,12 @@ function App() {
     <div className="stage" data-sty={theme} style={{ "--accent": accent, "--panel-blur": blurPx + "px", "--dim": dim / 100 }}>
       {isVideoWp
         ? <video className="bg bg-video" src={wallpaper.value} autoPlay loop muted playsInline key={wallpaper.value} style={{ objectFit: bgFit }} />
-        : <div className="bg" style={bgStyle} />}
+        : <>
+            {/* relleno borroso para fotos que no llenan (modo Completo): sin barras negras */}
+            {wallpaper.type === "image" && bgFit === "contain" &&
+              <div className="bg bg-fill" style={{ backgroundImage: `url("${wallpaper.value}")` }} />}
+            <div className="bg" style={bgStyle} />
+          </>}
       <div className="bg-scrim" />
       <div className="bg-grain" />
 

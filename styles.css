@@ -66,6 +66,14 @@ button { font-family: inherit; }
   width: 100%;
   height: 100%;
 }
+/* relleno borroso detrás de la foto completa (evita barras negras en fotos verticales) */
+.bg-fill {
+  background-size: cover;
+  background-position: center;
+  filter: blur(34px) brightness(0.55) saturate(1.1);
+  transform: scale(1.15);
+  z-index: -4;
+}
 
 /* readability scrim — controlable; por defecto OFF (--dim:0) */
 .bg-scrim {
