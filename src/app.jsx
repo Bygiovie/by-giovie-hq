@@ -152,6 +152,8 @@ function App() {
   // (~5MB) y se perdían al recargar. IndexedDB las conserva.
   const [wallpaper, setWallpaper] = useIndexedState("bg_wallpaper", window.WALLPAPERS[0]);
   const [userWallpapers, setUserWallpapers] = useIndexedState("bg_user_wp", []);
+  // ajuste del fondo: "cover" (llena, recorta) | "contain" (foto completa, sin recortar)
+  const [bgFit, setBgFit] = useLocalStorage("bg_fit", "cover");
 
   const [theme, setTheme] = useLocalStorage("bg_theme", "glass");
   const [accent, setAccent] = useLocalStorage("bg_accent", "#ff5a2c");
@@ -179,8 +181,10 @@ function App() {
 
   const isVideoWp = wallpaper.type === "video" ||
     (wallpaper.type === "image" && /\.(mp4|webm|ogv|ogg|mov|m4v)(\?|#|$)/i.test(wallpaper.value || ""));
+  // en "contain" mostramos la foto entera (sin el zoom 1.04 que recortaría bordes)
   const bgStyle = wallpaper.type === "image" && !isVideoWp
-    ? { backgroundImage: `url("${wallpaper.value}")` }
+    ? { backgroundImage: `url("${wallpaper.value}")`, backgroundSize: bgFit,
+        transform: bgFit === "contain" ? "scale(1)" : "scale(1.04)" }
     : (wallpaper.type === "gradient" ? { backgroundImage: wallpaper.value } : {});
 
   const blurPx = Math.round((blur / 100) * 40);
@@ -200,7 +204,7 @@ function App() {
   return (
     <div className="stage" data-sty={theme} style={{ "--accent": accent, "--panel-blur": blurPx + "px", "--dim": dim / 100 }}>
       {isVideoWp
-        ? <video className="bg bg-video" src={wallpaper.value} autoPlay loop muted playsInline key={wallpaper.value} />
+        ? <video className="bg bg-video" src={wallpaper.value} autoPlay loop muted playsInline key={wallpaper.value} style={{ objectFit: bgFit }} />
         : <div className="bg" style={bgStyle} />}
       <div className="bg-scrim" />
       <div className="bg-grain" />
@@ -245,6 +249,7 @@ function App() {
           accent={accent} setAccent={setAccent}
           wallpaper={wallpaper} setWallpaper={setWallpaper}
           userWallpapers={userWallpapers} setUserWallpapers={setUserWallpapers}
+          bgFit={bgFit} setBgFit={setBgFit}
           blur={blur} setBlur={setBlur}
           dim={dim} setDim={setDim}
           shortcuts={shortcuts} setShortcuts={setShortcuts}

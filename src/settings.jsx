@@ -53,7 +53,7 @@ function SettingsDrawer(props) {
   const {
     onClose, name, setName, city, setCity, logo, setLogo,
     theme, setTheme, accent, setAccent,
-    wallpaper, setWallpaper, userWallpapers, setUserWallpapers,
+    wallpaper, setWallpaper, userWallpapers, setUserWallpapers, bgFit, setBgFit,
     blur, setBlur, dim, setDim, shortcuts, setShortcuts, vis, setVis, onEditLayout,
   } = props;
 
@@ -211,6 +211,13 @@ function SettingsDrawer(props) {
             <window.IcUpload /> Subir desde el dispositivo
           </button>
           <input ref={fileRef} type="file" accept="image/*,video/mp4,video/webm,video/ogg" style={{ display: "none" }} onChange={onFile} />
+
+          <Row label="Ajuste del fondo" sub="Completo no recorta la imagen"><span /></Row>
+          <div className="seg" style={{ marginTop: -6, marginBottom: 4 }}>
+            {[["cover", "Llenar"], ["contain", "Completo"]].map(([v, l]) => (
+              <button key={v} className={bgFit === v ? "on" : ""} onClick={() => setBgFit(v)}>{l}</button>
+            ))}
+          </div>
 
           <div className="field" style={{ marginTop: 12, marginBottom: 0, display: "flex", gap: 8 }}>
             <input value={customWp} placeholder="URL de imagen o vídeo (.jpg .gif .mp4 .webm)"
