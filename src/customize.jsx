@@ -134,6 +134,11 @@ function ComponentPopover({ comp, config, onConfig, onClose, anchorRect }) {
             onChange={(c) => onConfig({ color: c })}
             onReset={config.color ? () => onConfig({ color: null }) : null} />
         </>
+          <div className="cp-lbl">Color de texto</div>
+            <window.ColorPicker value={config.textColor || ""} presets={BRD_PRESETS}
+              onChange={(c) => onConfig({ textColor: c })}
+              onReset={config.textColor ? () => onConfig({ textColor: null }) : null}
+          />
       ),
     },
   ];
@@ -163,12 +168,6 @@ function ComponentPopover({ comp, config, onConfig, onClose, anchorRect }) {
               </button>
               {isOpen && <div className="cp-sec-body">{s.body}</div>}
             </div>
-
-            <div className="cp-lbl">Color de texto</div>
-              <window.ColorPicker value={config.textColor || ""} presets={BRD_PRESETS}
-                onChange={(c) => onConfig({ textColor: c })}
-                onReset={config.textColor ? () => onConfig({ textColor: null }) : null}
-            />
           );
         })}
       </div>
