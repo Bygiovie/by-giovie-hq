@@ -133,12 +133,11 @@ function ComponentPopover({ comp, config, onConfig, onClose, anchorRect }) {
           <window.ColorPicker value={config.color || ""} presets={TINT_PRESETS}
             onChange={(c) => onConfig({ color: c })}
             onReset={config.color ? () => onConfig({ color: null }) : null} />
-        </>
           <div className="cp-lbl">Color de texto</div>
             <window.ColorPicker value={config.textColor || ""} presets={BRD_PRESETS}
               onChange={(c) => onConfig({ textColor: c })}
-              onReset={config.textColor ? () => onConfig({ textColor: null }) : null}
-          />
+              onReset={config.textColor ? () => onConfig({ textColor: null }) : null} />
+        </>
       ),
     },
   ];
