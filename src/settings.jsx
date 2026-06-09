@@ -9,7 +9,7 @@ const WALLPAPERS = [
   { id: "karina-arm-b", type: "image", value: "fondos/karina-aespa-armageddon-my-power-4k-wallpaper-uhdpaper.com-510@0@j.jpg",    thumb: "fondos/karina-aespa-armageddon-my-power-4k-wallpaper-uhdpaper.com-510@0@j.jpg" },
   { id: "karina-bt-a",  type: "image", value: "fondos/karina-aespa-better-things-4k-wallpaper-uhdpaper.com-662@1@l.jpg", thumb: "fondos/karina-aespa-better-things-4k-wallpaper-uhdpaper.com-662@1@l.jpg" },
   { id: "karina-bt-b",  type: "image", value: "fondos/karina-aespa-better-things-4k-wallpaper-uhdpaper.com-663@1@l.jpg", thumb: "fondos/karina-aespa-better-things-4k-wallpaper-uhdpaper.com-663@1@l.jpg" },
-  { id: "karina", type: "image", value: "assets/karina-aespa-dirty-work-iphone-16-pro-4k-wallpaper-uhdpaper.com-350@5@g.png",      thumb: "assets/karina-aespa-dirty-work-iphone-16-pro-4k-wallpaper-uhdpaper.com-350@5@g.png" },
+  { id: "karina-2345", type: "image", value: "assets/karina-aespa-dirty-work-iphone-16-pro-4k-wallpaper-uhdpaper.com-350@5@g.png",      thumb: "assets/karina-aespa-dirty-work-iphone-16-pro-4k-wallpaper-uhdpaper.com-350@5@g.png" },
   { id: "karina-life-a", type: "image", value: "fondos/karina-aespa-live-my-life-4k-wallpaper-uhdpaper.com-389@0@j.jpg", thumb: "fondos/karina-aespa-live-my-life-4k-wallpaper-uhdpaper.com-389@0@j.jpg" },
   { id: "karina-life-b", type: "image", value: "fondos/karina-aespa-live-my-life-4k-wallpaper-uhdpaper.com-391@0@j.jpg", thumb: "fondos/karina-aespa-live-my-life-4k-wallpaper-uhdpaper.com-391@0@j.jpg" },
     { id: "ember",  type: "gradient",
