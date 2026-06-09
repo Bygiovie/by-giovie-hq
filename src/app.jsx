@@ -224,7 +224,7 @@ function App() {
   const blurPx = Math.round((blur / 100) * 40);
 
   const slots = {
-    brand: <div onClick={() => {...}} style={{ cursor: 'pointer' }}>
+    brand: <div onClick={() setSettingsOpen(true) style={{ cursor: 'pointer' }}>
       <Brand logo={logo} textColor={cfgFor('brand').textColor} />
     </div>,
     greeting: <window.Greeting name={name} />,
