@@ -25,9 +25,9 @@ const DEFAULT_LAYOUT = {
   weather:   { ax: "right",  ox: 22, ay: "top",    oy: 74,  style: "auto", size: 0.95, opacity: 1, color: null },
 };
 
-function Brand({ logo }) {
+function Brand({ logo, textColor }) {
   return (
-    <div className="brand">
+    <div className="brand" style={{ color: textColor || 'inherit' }}>
       <div className={"glyph" + (logo ? " has-img" : "")}>
         {logo ? <img src={logo} alt="logo" /> : "G"}
       </div>
